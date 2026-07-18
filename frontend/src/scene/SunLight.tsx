@@ -12,7 +12,7 @@ import { sunDirection } from "./sun";
 const RECOMPUTE_EVERY = 10; // seconds — the sun moves ~0.04° in that time
 
 export function SunLight({
-  intensity = 2.45,
+  intensity = 3.45,
   distance = 50,
 }: {
   intensity?: number;
@@ -30,5 +30,5 @@ export function SunLight({
     ref.current?.position.copy(sunDirection(distance));
   });
 
-  return <directionalLight ref={ref} intensity={intensity} />;
+  return <directionalLight ref={ref} color="#f2f2f2" intensity={intensity} />;
 }

@@ -6,106 +6,16 @@
 // ============================================================================
 
 import { useMemo, useRef, type MutableRefObject } from "react";
-import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
 import { Coastlines } from "./Coastlines";
 import { Atmosphere } from "./Atmosphere";
 import type { NodeSnapshot, MempoolState, Block } from "@btcglobe/shared/types";
-import { pulseProgress } from "./blockPulse"; // new
-import { PULSE_DURATION } from "./Heartbeat";
 import { UnlocatableHalo } from "./UnlocatableHalo";
 import { TransactionStream } from "./TransactionStream";
-import { latLngToVec3 } from "./geo";
+import { Nodes } from "./Nodes";
 
 const GLOBE_RADIUS = 1.8;
-const NODE_RADIUS = GLOBE_RADIUS * 1.01;
-const NODE_BASE_SIZE = 0.05; // resting size (your tuned value)
-const FLARE_SIZE_GAIN = 3.1; // how much bigger at peak flare
-const FLARE_COLOR = new THREE.Color("#33f7e3"); // bright light teal
-const BASE_COLOR = new THREE.Color("#037862"); // teal
-// Fast attack, slow decay — a flash, not a swell.
-const FLARE_ATTACK = 0.025; // fraction of the pulse spent rising to peak
-
-// Soft radial sprite so each node is a glow, not a hard square.
-function makeGlowTexture(): THREE.Texture {
-  const size = 64;
-  const c = document.createElement("canvas");
-  c.width = c.height = size;
-  const ctx = c.getContext("2d")!;
-  const g = ctx.createRadialGradient(
-    size / 2,
-    size / 2,
-    0,
-    size / 2,
-    size / 2,
-    size / 2,
-  );
-  g.addColorStop(0.0, "rgba(255,255,255,1)");
-  g.addColorStop(0.3, "rgba(255,255,255,0.75)");
-  g.addColorStop(1.0, "rgba(255,255,255,0)");
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, size, size);
-  return new THREE.CanvasTexture(c);
-}
-
-function Nodes({ located }: { located: NodeSnapshot["located"] }) {
-  const glow = useMemo(makeGlowTexture, []);
-  const matRef = useRef<THREE.PointsMaterial>(null);
-
-  const positions = useMemo(() => {
-    const arr = new Float32Array(located.length * 3);
-    located.forEach((n, i) => {
-      const p = latLngToVec3(n.lat, n.lng, NODE_RADIUS);
-      arr[i * 3] = p.x;
-      arr[i * 3 + 1] = p.y;
-      arr[i * 3 + 2] = p.z;
-    });
-    return arr;
-  }, [located]);
-
-  // The flare: on each block pulse the nodes bloom hot and settle back.
-  // Reads the SAME clock as the shockwave, so they fire together — which is
-  // what makes the wave read as emanating from the network, not the Earth.
-  useFrame((state) => {
-    const mat = matRef.current;
-    if (!mat) return;
-
-    const p = pulseProgress(state.clock.elapsedTime, PULSE_DURATION);
-    if (p === null) {
-      mat.size = NODE_BASE_SIZE;
-      mat.color.copy(BASE_COLOR);
-      return;
-    }
-
-    // inside useFrame:
-    const env =
-      p < FLARE_ATTACK
-        ? p / FLARE_ATTACK
-        : Math.pow(1 - (p - FLARE_ATTACK) / (1 - FLARE_ATTACK), 2);
-
-    mat.size = NODE_BASE_SIZE * (1 + (FLARE_SIZE_GAIN - 1) * env);
-    mat.color.copy(BASE_COLOR).lerp(FLARE_COLOR, env);
-  });
-
-  return (
-    <points key={positions.length}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial
-        ref={matRef}
-        map={glow}
-        color={BASE_COLOR}
-        size={NODE_BASE_SIZE}
-        sizeAttenuation
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
 
 // Faint lat/long rings: structure + orientation, kept quieter than the coastlines.
 function Graticule({ radius }: { radius: number }) {
@@ -147,7 +57,7 @@ function Graticule({ radius }: { radius: number }) {
 
   return (
     <lineSegments geometry={geo}>
-      <lineBasicMaterial color="#21344a" transparent opacity={0.85} />{" "}
+      <lineBasicMaterial color="#396274" transparent opacity={0.85} />{" "}
       {/* tune: graticule color/opacity */}
     </lineSegments>
   );
@@ -176,8 +86,8 @@ export function Globe({
         <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
         <meshStandardMaterial
           color="#0d1826"
-          roughness={1}
-          metalness={0}
+          roughness={0.8}
+          metalness={0.15}
         />{" "}
         {/* tune: body color */}
       </mesh>
@@ -194,7 +104,9 @@ export function Globe({
         } /* color="#3b6a8c" exponent={3.5} baseStrength={0.35} maxStrength={0.95} */
       />
 
-      {snapshot && <Nodes located={snapshot.located} />}
+      {snapshot && (
+        <Nodes located={snapshot.located} radius={GLOBE_RADIUS * 1.01} />
+      )}
       <UnlocatableHalo
         count={snapshot?.unlocatableCount ?? lastUnlocatableCount.current}
       />

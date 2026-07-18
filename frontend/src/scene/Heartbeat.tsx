@@ -11,9 +11,10 @@ import { useFrame } from "@react-three/fiber";
 import type { Block } from "@btcglobe/shared/types";
 import { firePulse, pulseProgress } from "./blockPulse";
 
-export const PULSE_DURATION = 5.5; // shared by the flare — keep in one place
-const START_SCALE = 0.8;
-const END_SCALE = 3.7;
+export const PULSE_DURATION = 5.0; // shared by the flare — keep in one place
+export const HUM_PERIOD = 7.0; // seconds per node opacity hum cycle
+const START_SCALE = 0.7;
+const END_SCALE = 3.9;
 const PEAK_OPACITY = 1.0; // <-- YOUR TUNED VALUE
 
 export function Heartbeat({

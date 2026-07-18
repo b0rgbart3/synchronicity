@@ -29,9 +29,9 @@ const R_INNER = 2.35; // high feerate — next in line
 const R_OUTER = 3.0; // low feerate — waiting
 
 // Feerate -> color, log scale (feerates span ~1 to 1000+ sat/vB).
-const COOL = new THREE.Color("#7bfbfb"); // low feerate — deep, dim, receding
+const COOL = new THREE.Color("#7be6fb"); // low feerate — deep, dim, receding
 const MID = new THREE.Color("#04a3ff"); // mid — your blue, unchanged
-const HOT = new THREE.Color("#a78bff"); // high feerate — electric, advancing
+const HOT = new THREE.Color("#636bff"); // high feerate — electric, advancing
 
 // Feerate -> orbital radius. Distance from the globe IS distance from being
 // mined. Normalized against the LIVE fee ladder, so "inner = next block" stays
@@ -203,7 +203,7 @@ export function TransactionStream({
           // statistically equal one circling the other, so the cloud has NO net
           // direction. The axis carries no information — the RADIUS does.
           axis: new THREE.Vector3().randomDirection(),
-          speed: 0.09 * Math.pow(R_OUTER / r, 0.5), // <-- keep your reduced value
+          speed: 0.18 * Math.pow(R_OUTER / r, 0.5), // <-- keep your reduced value
           size: vsizeToSize(tx.vsize, baseSize),
           color: feerateColor(tx.feerate, new THREE.Color()),
           feerate: tx.feerate,

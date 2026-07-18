@@ -15,7 +15,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { pulseProgress } from "./blockPulse";
-import { PULSE_DURATION } from "./Heartbeat";
+import { PULSE_DURATION, HUM_PERIOD } from "./Heartbeat";
 
 // Deterministic PRNG so the band doesn't reshuffle on every render.
 function makeRng(seed: number) {
@@ -120,6 +120,9 @@ export function UnlocatableHalo({
     const mat = matRef.current;
     if (!mat) return;
 
+    // 3-second sine hum in sync with located nodes: 0.75→0.5→0.75→1.0→0.75
+    mat.opacity = 0.75 - 0.25 * Math.sin((state.clock.elapsedTime * Math.PI * 2) / HUM_PERIOD);
+
     const p = pulseProgress(state.clock.elapsedTime, PULSE_DURATION);
     if (p === null) {
       mat.size = size;
@@ -149,7 +152,7 @@ export function UnlocatableHalo({
           size={size}
           sizeAttenuation
           transparent
-          opacity={0.85}
+          opacity={0.75}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />

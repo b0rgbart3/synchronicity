@@ -123,7 +123,7 @@ export default function App() {
 
       <Canvas camera={{ position: [0, 0, 8.5], fov: 35 }}>
         <color attach="background" args={["#060a12"]} />
-        <ambientLight intensity={0.25} />
+        <ambientLight color="#8ab4d4" intensity={0.3} />
         <SunLight />
         {/* <directionalLight position={[4, 2, 3]} intensity={1.1} /> */}
         <Moon />
