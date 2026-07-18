@@ -9,6 +9,7 @@ import { pressureFromMempool } from "./scene/pressure";
 import { Heartbeat } from "./scene/Heartbeat";
 import { useEffect, useState } from "react";
 import { SunLight } from "./scene/SunLight";
+import { Moon } from "./scene/Moon";
 import { AboutModal } from "./AboutModal";
 
 function Stat({ value, label }: { value: string; label: string }) {
@@ -125,6 +126,7 @@ export default function App() {
         <ambientLight intensity={0.25} />
         <SunLight />
         {/* <directionalLight position={[4, 2, 3]} intensity={1.1} /> */}
+        <Moon />
         <Starfield />
         <Globe
           snapshot={snapshot}

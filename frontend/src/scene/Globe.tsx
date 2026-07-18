@@ -207,10 +207,10 @@ export function Globe({
       <OrbitControls
         enablePan={false}
         minDistance={4.5}
-        maxDistance={12}
+        maxDistance={30}
         autoRotate
         autoRotateSpeed={0.3}
-        zoomSpeed={0.08} /* default is 1.0 — lower = slower */
+        zoomSpeed={0.04} /* default is 1.0 — lower = slower */
       />
     </group>
   );
