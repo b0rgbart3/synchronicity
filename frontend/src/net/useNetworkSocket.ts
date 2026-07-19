@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { NodeSnapshot, MempoolState, Block, ServerMessage, Tx } from "@btcglobe/shared/types";
 
-const GATEWAY_URL = "ws://localhost:8787";
+const GATEWAY_URL = import.meta.env.VITE_WS_URL ?? "ws://localhost:8787";
 const RECONNECT_MIN = 1500;
 const RECONNECT_MAX = 30000;
 

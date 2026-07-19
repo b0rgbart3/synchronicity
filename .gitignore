@@ -1,7 +1,6 @@
 
 node_modules
 design
-.env
 frontend/node_modules
 
 # Build outputs
@@ -29,7 +28,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local env variants
+# Env files (production env lives on the server only)
+.env
+.env.production
 .env.local
 .env.*.local
 
