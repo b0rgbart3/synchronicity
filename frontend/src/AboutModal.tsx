@@ -34,7 +34,9 @@ export function AboutModal({ onClose }: Props) {
         aria-label="About Synchronicity: A Bitcoin Visualization"
       >
         <div className="about-panel__header">
-          <span className="about-panel__title">Synchronicity: A Bitcoin Visualization</span>
+          <span className="about-panel__title">
+            Synchronicity: A Bitcoin Visualization
+          </span>
           <button
             className="about-panel__close"
             onClick={onClose}
@@ -50,6 +52,18 @@ export function AboutModal({ onClose }: Props) {
             machines that carry it, the transactions flowing between them, and
             the variable duration rateheartbeat of consensus (blocks being
             mined).
+          </p>
+
+          <p className="about-panel__lead">
+            The nodes are depicted in teal green. The transactions are depicted
+            in pale blue. The larger a transaction is, the larger the dot. The
+            higher the feerate, the darker the blue color gets. Higher feerate
+            transactions are closer to the globe, while lower feerate
+            transactions are further away. The atmosphere is a Fresnel shell
+            that brightens with mempool pressure and dims after a block is
+            mined. The Moon and ISS are also depicted in their correct
+            positions. They have nothing in particular to do with the Bitcoin
+            network, but they are included because they are fun to watch.
           </p>
 
           <p className="about-panel__lead">
@@ -457,9 +471,10 @@ export function AboutModal({ onClose }: Props) {
           {/* ── About ───────────────────────────────────────────────── */}
           <h2 className="about-panel__section">About the Creator</h2>
           <p>
-            Synchronicity: A Bitcoin Visualization was designed and built by <strong>Bart Dority</strong>{" "}
-            — developer, designer, and independent researcher at the
-            intersection of design, engineering, and data visualization systems.
+            Synchronicity: A Bitcoin Visualization was designed and built by{" "}
+            <strong>Bart Dority</strong> — developer, designer, and independent
+            researcher at the intersection of design, engineering, and data
+            visualization systems.
           </p>
           <div className="about-panel__links">
             <a

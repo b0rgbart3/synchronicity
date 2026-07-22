@@ -18,7 +18,7 @@ import { latLngToVec3 } from "./geo";
 export const MOON_RADIUS = 1.8 * 0.2727;    // exact proportion to Earth body (r=1.8)
 export const MOON_SCENE_DISTANCE = 9.5;      // compressed; true scale would be ~108
 
-function gmstDegrees(date: Date): number {
+export function gmstDegrees(date: Date): number {
   // Julian date from Unix epoch
   const JD = date.getTime() / 86_400_000 + 2_440_587.5;
   // GMST in degrees — accurate to ~1 arcminute over decades

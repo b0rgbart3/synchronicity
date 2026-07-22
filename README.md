@@ -4,6 +4,16 @@
 
 A real-time 3D visualization of the Bitcoin network — the physical machines that carry it, the transactions flowing between them, and the variable duration rateheartbeat of consensus (blocks being mined).
 
+The nodes are depicted in teal green. The transactions are depicted
+in pale blue. The larger a transaction is, the larger the dot. The
+higher the feerate, the darker the blue color gets. Higher feerate
+transactions are closer to the globe, while lower feerate
+transactions are further away. The atmosphere is a Fresnel shell
+that brightens with mempool pressure and dims after a block is
+mined. The Moon and ISS are also depicted in their correct
+positions. They have nothing in particular to do with the Bitcoin
+network, but they are included because they are fun to watch.
+
 The driving principle is **honest encoding.** Where something can be measured — a node's location, a transaction's size, a feerate — that measurement drives the visual directly. Aesthetic choices fill the rest, shaped to make the network legible and the experience worth staying with. The balance tips toward the data wherever it can.
 
 ---
